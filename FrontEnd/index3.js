@@ -92,3 +92,81 @@ filterHotelAndRestaurant.addEventListener("click", function () {
   clearAll();
   loadDataSet(hotelAndRestaurantProjects);
 });
+
+// ------------------- Reload page_edit adminToken --------------------------
+
+console.log(sessionStorage["adminToken"]);
+const navLogin = document.getElementById("navLogin");
+
+function indexEdit() {
+  if (sessionStorage["adminToken"]) {
+    headerEdit();
+    logoutEdit();
+    hiddenFilters();
+    newEditDiv("indexFigure");
+    newEditDiv("portfolio");
+    newEditDiv("introduction_article");
+    document.body.style.marginTop = "80px";
+  }
+}
+
+function logoutEdit() {
+  navLogin.innerText = "logout";
+}
+
+function headerEdit() {
+  // Création de la nouvelle div "newHeader" en haut de page
+  let newHeaderDiv = document.createElement("div");
+  newHeaderDiv.id = "newHeader";
+  let firstChild = document.body.firstChild;
+  newHeaderDiv.textContent = "";
+  document.body.insertBefore(newHeaderDiv, firstChild);
+  newHeaderDiv.style.cssText =
+    "position: absolute; width: 100%; background-color: black; color: white; height: 60px; display: flex; align-items: center; justify-content: center;";
+  // Création des nouveaux éléments dans la div
+  let editIcon = document.createElement("i");
+  editIcon.className = "fa-regular fa-pen-to-square";
+  let editionMode = document.createElement("p");
+  editionMode.textContent = "Mode édition";
+  let publishButton = document.createElement("button");
+  publishButton.textContent = "Publier les changements";
+  // Définition des styles des elements du header
+  editIcon.style.margin = "10px";
+  editionMode.style.cursor = "pointer";
+  publishButton.style.cssText =
+    "padding: 10px; margin-left: 10px; border-radius: 20px; cursor: pointer;";
+  // Intégration des éléments dans la div "newHeader"
+  newHeaderDiv.appendChild(editIcon);
+  newHeaderDiv.appendChild(editionMode);
+  newHeaderDiv.appendChild(publishButton);
+}
+
+function newEditDiv(parent) {
+  // Création de la div + style
+  let editDiv = document.createElement("button");
+  let divParent = document.getElementById(parent);
+  divParent.appendChild(editDiv);
+  divParent.style.position = "relative";
+  editDiv.className = "iconEditDiv";
+  editDiv.style.cssText =
+    "cursor: pointer; display: flex; align-items: center; justify-content: center; position: absolute; border: none; background-color: transparent";
+  // Création du i + style
+  let editIcon = document.createElement("i");
+  editIcon.className = "fa-regular fa-pen-to-square";
+  editIcon.style.margin = "10px";
+  // Création du p + style
+  let editionText = document.createElement("p");
+  editionText.textContent = "modifier";
+  editionText.style.margin = "0px";
+  // Intégration du 'i' et du 'p' dans la div
+  editDiv.appendChild(editIcon);
+  editDiv.appendChild(editionText);
+  editDiv.id = `${parent}editDiv`;
+}
+
+function hiddenFilters() {
+  let divFilters = document.getElementById("filters");
+  divFilters.style.display = "none";
+}
+
+indexEdit();

@@ -1,11 +1,13 @@
 // Récupération des données du formulaire
 
 const formElement = document.getElementById("formLogin");
-const formData = new FormData(formElement);
-console.log(formData);
-const submitForm = document.getElementById("connect");
-console.log(submitForm);
-submitForm.addEventListener("click", fetchLogs());
+formElement.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const data = new FormData(form);
+  console.log(data);
+  fetchLogs();
+});
 
 // Envoi de la requette HTTP POST avec fetch
 async function fetchLogs() {
@@ -16,17 +18,22 @@ async function fetchLogs() {
       "Content-Type": "application/json;charset=utf-8",
     },
     body: JSON.stringify({
-      email: "string",
-      password: "string",
+      email: document.getElementById("formEmail").value,
+      password: document.getElementById("formPassword").value,
     }),
   })
     // la fonction JSON.stringify pour encoder les données en chaîne de caractères au format JSON.
-    .then(function (response) {
+    .then(async function (response) {
       // Traitement de la réponse du serveur
       if (response.ok) {
         // La combinaison utilisateur-mot de passe est correcte
         // Redirection vers la page d'accueil et configuration de l'authentification
-        window.location.href("index.html");
+        console.log("C'est la bonne adresse");
+        response = await response.json();
+        console.log(response);
+        // Enregistrer le token de session dans le sessionStorage
+        sessionStorage.setItem("adminToken", response.token);
+        window.location.href = "index.html";
       } else {
         // La combinaison utilisateur-mot de passe est incorrecte
         // Affichage d'un message d'erreur
