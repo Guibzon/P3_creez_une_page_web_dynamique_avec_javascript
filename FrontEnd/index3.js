@@ -7,14 +7,13 @@ const hotelAndRestaurantProjects = new Set();
 
 const navLogin = document.getElementById("navLogin");
 const crossCloseModale = document.getElementById("closeModale");
+const backgroundModale = document.getElementById("modale1");
 const modale = document.getElementsByClassName("modale");
 const modalInside = document.querySelector(".inside-modale");
 
 initAllSetsOfData().then(() => {
   initAdminElements();
-  console.log("toto");
 });
-console.log("toto first");
 
 async function fetchAllWorks() {
   const worksRow = await fetch("http://localhost:5678/api/works", {
@@ -54,6 +53,8 @@ function loadDataSet(works) {
     categories.add(work.categoryId);
 
     const dom_figure = document.createElement("figure");
+    // déclaration de l'id pour les figures
+    dom_figure.setAttribute("data-workId", work.id);
     gallery.appendChild(dom_figure);
 
     const dom_img = document.createElement("img");
@@ -72,6 +73,7 @@ function loadDataEdit(works) {
   console.log(works);
   works.forEach((work) => {
     const projetModale = document.createElement("div");
+    projetModale.setAttribute("data-workId", work.id);
     projetModale.id = "projetModale";
     modalInside.appendChild(projetModale);
 
@@ -84,7 +86,16 @@ function loadDataEdit(works) {
     const modaleEdit = document.createElement("p");
     modaleEdit.textContent = "éditer";
     projetModale.appendChild(modaleEdit);
+
+    const modaleTrashIcon = document.createElement("i");
+    modaleTrashIcon.className = "fa-solid fa-trash-can";
+    projetModale.appendChild(modaleTrashIcon);
   });
+
+  const modaleArrowIcon = document.createElement("i");
+  modaleArrowIcon.className = "fa-solid fa-arrows-up-down-left-right";
+  projetModale[0].appendChild(modaleArrowIcon);
+  console.log(projetModale);
 }
 
 function clearAll() {
@@ -132,9 +143,17 @@ function initAdminElements() {
     newEditDiv("introduction_article");
     document.body.style.marginTop = "80px";
     loadDataEdit(allProjects);
+    openModale();
   } else {
     // Not admin mode
   }
+}
+
+function openModale() {
+  const modifierButton = document.getElementById("portfolioeditDiv");
+  modifierButton.addEventListener("click", () => {
+    modale[0].style.display = "block";
+  });
 }
 
 function logoutEdit() {
@@ -167,11 +186,11 @@ function headerEdit() {
   newHeaderDiv.appendChild(editIcon);
   newHeaderDiv.appendChild(editionMode);
   newHeaderDiv.appendChild(publishButton);
-  const editionModeLink = document.getElementById("editionMode");
+  // const editionModeLink = document.getElementById("editionMode");
 
-  editionModeLink.addEventListener("click", function () {
-    modale[0].style.display = "block";
-  });
+  // editionModeLink.addEventListener("click", function () {
+  //   modale[0].style.display = "block";
+  // });
 }
 
 function newEditDiv(parent) {
@@ -207,10 +226,64 @@ navLogin.addEventListener("click", function () {
   sessionStorage.clear();
 });
 //EventListener pour fermer la modale
-const editionModeLink = document.getElementById("editionMode");
+// const editionModeLink = document.getElementById("editionMode");
+// editionModeLink.addEventListener("click", function () {
+//   modale[0].style.display = "block";
+// });
 
-crossCloseModale.addEventListener("click", function () {
-  modale[0].style.display = "none";
+// crossCloseModale.addEventListener("click", function () {
+//   modale[0].style.display = "none";
+// });
+
+backgroundModale.addEventListener("click", function (event) {
+  if (event.target.id === "modale1" || event.target.id === "closeModale") {
+    modale[0].style.display = "none";
+    console.log("test");
+  } else if (event.target.className.includes("fa-trash-can")) {
+    deleteModaleProject(event.target);
+  }
 });
 
-function createModaleDiv() {}
+async function deleteModaleProject(trashIcon) {
+  console.log("click sur la croiiiiiix");
+  const parentTrash = trashIcon.parentElement;
+  console.log("parenttrash", parentTrash.getAttribute("data-workId"));
+  const galleryTrash = [...document.querySelector(".gallery").children];
+  // le [...] permet de faire un Array avec ce qui est a l'interieur
+  console.log("gallery", galleryTrash);
+
+  // Envoyer une requête DELETE à l'API
+  await fetch(
+    `http://localhost:5678/api/works/${parentTrash.getAttribute(
+      "data-workId"
+    )}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${sessionStorage["adminToken"]}`,
+        "Content-Type": "application/json",
+      },
+    }
+  )
+    .then((response) => {
+      // Vérifier que la réponse est de type "ok"
+      if (response.ok) {
+        // Supprimer l'élément de la page web
+        galleryTrash.forEach((figure) => {
+          if (
+            figure.getAttribute("data-workId") ===
+            parentTrash.getAttribute("data-workId")
+          ) {
+            figure.remove();
+          }
+        });
+        parentTrash.remove();
+      } else {
+        console.log(response, "reponse du fetch delete");
+        throw new Error("Unable to delete item");
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}

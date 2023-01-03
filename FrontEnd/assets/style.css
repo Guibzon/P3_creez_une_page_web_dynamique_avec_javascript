@@ -310,21 +310,40 @@ footer nav ul {
 
 .inside-modale {
 	height: 460px;
-	width: 510px;
+	width: 490px;
 	border-bottom: 1px solid black;
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between
+	align-content: flex-start;
+	/* justify-content: space-between */
 }
 
 #projetModale {
+	padding-left: 2px;
+	margin: 3px;
 	width: 90px;
 	height: 130px;
 }
+#projetModale .fa-trash-can, .fa-arrows-up-down-left-right {
+	position: relative;
+	padding: 5px;
+	background-color: black;
+	color: #FFF;
+	bottom: 130px;
+	left: 60px;
+	border-radius: 4px;
+	transform: scale(0.8);
+}
+#projetModale .fa-arrows-up-down-left-right{
+    left: 14px;
+	bottom: 130px;
+	color: white;
+}
+
 
 #projetModale img {
-	width: 90px;
-	height: 108px;
+	width: 85px;
+	height: 118px;
 }
 
 .modale-wrapper button {
@@ -339,7 +358,7 @@ footer nav ul {
 	border: #1D6154;
 }
 
-.modale-wrapper i {
+.modale-wrapper .fa-xmark {
 	transform: scale(2);
 	position: absolute;
 	top: 30px;
