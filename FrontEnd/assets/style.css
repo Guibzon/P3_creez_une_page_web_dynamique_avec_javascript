@@ -274,3 +274,74 @@ footer nav ul {
 	top: 0px;
 	left: 680px;
 }
+
+.modale {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.8);
+}
+
+.modale-wrapper {
+		margin: 0 auto;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		top: 100px;
+		width: 630px;
+		height: 730px;
+		background-color: #FFF;
+}
+
+#titlemodale {
+	font-family: sans-serif;
+	font-weight: 400;
+	font-size: 26px;
+	color: black;
+	display: flex;
+	justify-content: center;
+	height: 130px;
+}
+
+.inside-modale {
+	height: 460px;
+	width: 510px;
+	border-bottom: 1px solid black;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between
+}
+
+#projetModale {
+	width: 90px;
+	height: 130px;
+}
+
+#projetModale img {
+	width: 90px;
+	height: 108px;
+}
+
+.modale-wrapper button {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin : 25px auto;
+	width: 240px;
+	height: 36px;
+	border-radius: 60px ;
+	border: #1D6154;
+}
+
+.modale-wrapper i {
+	transform: scale(2);
+	position: absolute;
+	top: 30px;
+	right: 30px;
+}

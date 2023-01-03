@@ -5,16 +5,25 @@ const objectsProjects = new Set();
 const apartmentProjects = new Set();
 const hotelAndRestaurantProjects = new Set();
 
-initAllSetsOfData();
+const navLogin = document.getElementById("navLogin");
+const crossCloseModale = document.getElementById("closeModale");
+const modale = document.getElementsByClassName("modale");
+const modalInside = document.querySelector(".inside-modale");
+
+initAllSetsOfData().then(() => {
+  initAdminElements();
+  console.log("toto");
+});
+console.log("toto first");
 
 async function fetchAllWorks() {
-  const works = await fetch("http://localhost:5678/api/works", {
+  const worksRow = await fetch("http://localhost:5678/api/works", {
     headers: {
       "Cross-Origin-Ressource-Policy": "cross-origin",
     },
   });
-  if (works.ok) {
-    return works.json();
+  if (worksRow.ok) {
+    return worksRow.json();
   } else {
     console.error(works.error);
   }
@@ -24,7 +33,6 @@ async function initAllSetsOfData() {
   let works = await fetchAllWorks();
 
   // Sélectionnez l'élément parent de votre galerie
-
   works.filter(function (work) {
     allProjects.add(work);
     if (work.categoryId === 1) {
@@ -39,10 +47,10 @@ async function initAllSetsOfData() {
   loadDataSet(allProjects);
 }
 
-function loadDataSet(data) {
+function loadDataSet(works) {
   const gallery = document.querySelector(".gallery");
 
-  data.forEach((work) => {
+  works.forEach((work) => {
     categories.add(work.categoryId);
 
     const dom_figure = document.createElement("figure");
@@ -57,6 +65,25 @@ function loadDataSet(data) {
     const dom_figcaption = document.createElement("figcaption");
     dom_figcaption.textContent = work.title;
     dom_figure.appendChild(dom_figcaption);
+  });
+}
+
+function loadDataEdit(works) {
+  console.log(works);
+  works.forEach((work) => {
+    const projetModale = document.createElement("div");
+    projetModale.id = "projetModale";
+    modalInside.appendChild(projetModale);
+
+    const modaleImg = document.createElement("img");
+    modaleImg.crossOrigin = "anonymous";
+    modaleImg.src = work.imageUrl;
+    modaleImg.alt = work.title;
+    projetModale.appendChild(modaleImg);
+
+    const modaleEdit = document.createElement("p");
+    modaleEdit.textContent = "éditer";
+    projetModale.appendChild(modaleEdit);
   });
 }
 
@@ -95,10 +122,7 @@ filterHotelAndRestaurant.addEventListener("click", function () {
 
 // ------------------- Reload page_edit adminToken --------------------------
 
-console.log(sessionStorage["adminToken"]);
-const navLogin = document.getElementById("navLogin");
-
-function indexEdit() {
+function initAdminElements() {
   if (sessionStorage["adminToken"]) {
     headerEdit();
     logoutEdit();
@@ -107,6 +131,9 @@ function indexEdit() {
     newEditDiv("portfolio");
     newEditDiv("introduction_article");
     document.body.style.marginTop = "80px";
+    loadDataEdit(allProjects);
+  } else {
+    // Not admin mode
   }
 }
 
@@ -128,6 +155,7 @@ function headerEdit() {
   editIcon.className = "fa-regular fa-pen-to-square";
   let editionMode = document.createElement("p");
   editionMode.textContent = "Mode édition";
+  editionMode.id = "editionMode";
   let publishButton = document.createElement("button");
   publishButton.textContent = "Publier les changements";
   // Définition des styles des elements du header
@@ -139,6 +167,11 @@ function headerEdit() {
   newHeaderDiv.appendChild(editIcon);
   newHeaderDiv.appendChild(editionMode);
   newHeaderDiv.appendChild(publishButton);
+  const editionModeLink = document.getElementById("editionMode");
+
+  editionModeLink.addEventListener("click", function () {
+    modale[0].style.display = "block";
+  });
 }
 
 function newEditDiv(parent) {
@@ -169,4 +202,15 @@ function hiddenFilters() {
   divFilters.style.display = "none";
 }
 
-indexEdit();
+// EventListener sur le click pour pouvoir clear le Token de sessionsStorage (admin token). Attention a mettre le click entre "".
+navLogin.addEventListener("click", function () {
+  sessionStorage.clear();
+});
+//EventListener pour fermer la modale
+const editionModeLink = document.getElementById("editionMode");
+
+crossCloseModale.addEventListener("click", function () {
+  modale[0].style.display = "none";
+});
+
+function createModaleDiv() {}
