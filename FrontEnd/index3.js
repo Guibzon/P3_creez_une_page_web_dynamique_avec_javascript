@@ -152,9 +152,23 @@ function initAdminElements() {
 }
 
 function openModale() {
-  const modifierButton = document.getElementById("portfolioeditDiv");
-  modifierButton.addEventListener("click", () => {
-    backgroundModale.style.display = "flex";
+  // // Récupération de la div parente pour le bouton modifier
+  let portfolioEditDiv = document.getElementById("portfolioeditDiv");
+  // // Récupération de tous les enfants de la div parente
+  let childrenEditDiv = portfolioEditDiv.children;
+  console.log("children", childrenEditDiv);
+  // // Boucle sur tous les enfants pour leur attribuer un ID unique
+  for (var i = 0; i < childrenEditDiv.length; i++) {
+    childrenEditDiv[i].id = "portfolioeditDivChild" + (i + 1);
+  }
+  document.addEventListener("click", (event) => {
+    if (
+      event.target.id === "portfolioeditDiv" ||
+      event.target.id === "portfolioeditDivChild1" ||
+      event.target.id === "portfolioeditDivChild2"
+    ) {
+      backgroundModale.style.display = "flex";
+    }
   });
 }
 
@@ -333,8 +347,9 @@ validerModale2.addEventListener("click", () => {
         loadDataSet(allProjects);
         initAdminElements();
         console.log("2emelog", allProjects);
-        modaleNumberOne.style.display = "flex";
-        modaleNumberTwo.style.display = "none";
+        backgroundModale.style.display = "none";
+        // modaleNumberOne.style.display = "flex";
+        // modaleNumberTwo.style.display = "none";
       });
     });
 });
