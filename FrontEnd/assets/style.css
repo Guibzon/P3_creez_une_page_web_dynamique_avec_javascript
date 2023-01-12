@@ -168,7 +168,8 @@ nav a:hover {
 
 .gallery img {
 	width: 100%;
-
+	height: 100%;
+	object-fit: cover;
 }
 #contact {
 	width: 50%;
@@ -202,7 +203,7 @@ margin: auto;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"]{
+#contact input[type="submit"], #formLogin input[type="submit"]{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -275,6 +276,9 @@ footer nav ul {
 	left: 680px;
 }
 
+
+/* ---------------------------- Debut de la modale ----------------------------*/
+
 .modale {
 	display: none;
 	position: fixed;
@@ -296,9 +300,10 @@ footer nav ul {
 		width: 630px;
 		height: 730px;
 		background-color: #FFF;
+		border-radius: 15px;
 }
 
-#titlemodale {
+#titlemodale, #titlemodale2 {
 	font-family: sans-serif;
 	font-weight: 400;
 	font-size: 26px;
@@ -315,13 +320,14 @@ footer nav ul {
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-start;
+	overflow-y: scroll;
 	/* justify-content: space-between */
 }
 
 #projetModale {
 	padding-left: 2px;
 	margin: 3px;
-	width: 90px;
+	width: 85px;
 	height: 130px;
 }
 #projetModale .fa-trash-can, .fa-arrows-up-down-left-right {
@@ -335,11 +341,14 @@ footer nav ul {
 	transform: scale(0.8);
 }
 #projetModale .fa-arrows-up-down-left-right{
+	opacity: 0;
     left: 14px;
 	bottom: 130px;
 	color: white;
 }
-
+#projetModale:hover .fa-arrows-up-down-left-right{
+	opacity: 1;
+}
 
 #projetModale img {
 	width: 85px;
@@ -356,6 +365,7 @@ footer nav ul {
 	height: 36px;
 	border-radius: 60px ;
 	border: #1D6154;
+	cursor: pointer;
 }
 
 .modale-wrapper .fa-xmark {
@@ -363,4 +373,95 @@ footer nav ul {
 	position: absolute;
 	top: 30px;
 	right: 30px;
+	cursor: pointer;
+}
+
+.modale-wrapper .fa-arrow-left {
+	transform: scale(2);
+	position: absolute;
+	top: 30px;
+	left: 30px;
+}
+
+#divImageModale2 {
+	width: 420px;
+	height: 170px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #E8F1F6;
+	margin-bottom: 50px;
+}
+
+#divImageModale2 i {
+	font-size: 58px;
+	margin: 20px;
+	color: #B9C5CC;
+}
+
+ #addPhoto {
+    background-color: #B9C5CC;
+    border-radius: 20px;
+    padding: 10px 50px;
+	margin-bottom: 10px;
+    cursor: pointer;
+  }
+
+  #file-input {
+	display: none;
+  }
+
+.inputModale2 {
+  	width: 420px;
+	height: 50px;
+	padding: 0;
+	font-family: 'Work Sans';
+	margin-bottom: 20px;
+	margin-top: 10px;
+	border: none;
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 8px;
+	font-size: 16px;
+}
+
+#title {
+	width: 416px;
+	height: 46px;
+}
+
+.titleAndCategory {
+	font-size: 14px;
+	font-weight: 600;
+	font-family: 'Work Sans';
+}
+
+.modale-wrapper input[type="submit"] {
+	width: 240px;
+	height: 40px;
+	color: white;
+	background-color: #A7A7A7;
+	border: none;
+	border-radius: 20px;
+	font-family: 'Work Sans';
+	font-weight: 700;
+	font-size: 16px;
+}
+
+#traitSeparationModale2 {
+	margin: 40px;
+	background-color: #A7A7A7;
+	width: 420px;
+	height: 1px;
+}
+
+.modale {
+	display: none;
+}
+#modaleNumberTwo {
+	display: none;
+}
+
+#divImageModale2 img {
+	width: 420px;
+	height: 170px;
+	object-fit: contain;
 }

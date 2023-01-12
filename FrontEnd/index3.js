@@ -7,11 +7,24 @@ const hotelAndRestaurantProjects = new Set();
 
 const navLogin = document.getElementById("navLogin");
 const crossCloseModale = document.getElementById("closeModale");
+const arrowBackModale = document.getElementById("arrowBackModale");
+const buttonModale1 = document.getElementById("buttonModale1");
 const backgroundModale = document.getElementById("modale1");
-const modale = document.getElementsByClassName("modale");
 const modalInside = document.querySelector(".inside-modale");
+const allElementsModale1 = document.getElementsByClassName("modale1");
+const modaleNumberOne = document.getElementById("modaleNumberOne");
+const modaleNumberTwo = document.getElementById("modaleNumberTwo");
+const allElementsModale2 = document.getElementsByClassName("modale2");
+const hiddenInputModale2 = document.getElementById("file-input");
+const validerModale2 = document.getElementById("validerModale2");
+const categoryInput = document.getElementById("category");
+const divImageModale2 = document.getElementById("divImageModale2");
+const titleInputModale2 = document.getElementById("title");
+const galleryModale = document.getElementById("galleryModale");
+const gallery = document.querySelector(".gallery");
 
 initAllSetsOfData().then(() => {
+  loadDataSet(allProjects);
   initAdminElements();
 });
 
@@ -30,8 +43,6 @@ async function fetchAllWorks() {
 
 async function initAllSetsOfData() {
   let works = await fetchAllWorks();
-
-  // Sélectionnez l'élément parent de votre galerie
   works.filter(function (work) {
     allProjects.add(work);
     if (work.categoryId === 1) {
@@ -42,18 +53,14 @@ async function initAllSetsOfData() {
       hotelAndRestaurantProjects.add(work);
     }
   });
-
-  loadDataSet(allProjects);
 }
 
 function loadDataSet(works) {
-  const gallery = document.querySelector(".gallery");
-
   works.forEach((work) => {
     categories.add(work.categoryId);
 
     const dom_figure = document.createElement("figure");
-    // déclaration de l'id pour les figures
+    dom_figure.id = "galleryFigure";
     dom_figure.setAttribute("data-workId", work.id);
     gallery.appendChild(dom_figure);
 
@@ -66,12 +73,7 @@ function loadDataSet(works) {
     const dom_figcaption = document.createElement("figcaption");
     dom_figcaption.textContent = work.title;
     dom_figure.appendChild(dom_figcaption);
-  });
-}
 
-function loadDataEdit(works) {
-  console.log(works);
-  works.forEach((work) => {
     const projetModale = document.createElement("div");
     projetModale.setAttribute("data-workId", work.id);
     projetModale.id = "projetModale";
@@ -90,17 +92,18 @@ function loadDataEdit(works) {
     const modaleTrashIcon = document.createElement("i");
     modaleTrashIcon.className = "fa-solid fa-trash-can";
     projetModale.appendChild(modaleTrashIcon);
-  });
 
-  const modaleArrowIcon = document.createElement("i");
-  modaleArrowIcon.className = "fa-solid fa-arrows-up-down-left-right";
-  projetModale[0].appendChild(modaleArrowIcon);
-  console.log(projetModale);
+    const modaleArrowIcon = document.createElement("i");
+    modaleArrowIcon.className = "fa-solid fa-arrows-up-down-left-right";
+    projetModale.appendChild(modaleArrowIcon);
+    // console.log(projetModale);
+  });
 }
 
 function clearAll() {
-  const gallery = document.querySelector(".gallery");
+  console.log("clearAll actif");
   gallery.innerHTML = "";
+  modalInside.innerHTML = "";
 }
 // ------------- PARTIE FILTRES ------------ //
 const filterAll = document.getElementById("filterAll");
@@ -142,7 +145,6 @@ function initAdminElements() {
     newEditDiv("portfolio");
     newEditDiv("introduction_article");
     document.body.style.marginTop = "80px";
-    loadDataEdit(allProjects);
     openModale();
   } else {
     // Not admin mode
@@ -152,7 +154,7 @@ function initAdminElements() {
 function openModale() {
   const modifierButton = document.getElementById("portfolioeditDiv");
   modifierButton.addEventListener("click", () => {
-    modale[0].style.display = "block";
+    backgroundModale.style.display = "flex";
   });
 }
 
@@ -186,11 +188,6 @@ function headerEdit() {
   newHeaderDiv.appendChild(editIcon);
   newHeaderDiv.appendChild(editionMode);
   newHeaderDiv.appendChild(publishButton);
-  // const editionModeLink = document.getElementById("editionMode");
-
-  // editionModeLink.addEventListener("click", function () {
-  //   modale[0].style.display = "block";
-  // });
 }
 
 function newEditDiv(parent) {
@@ -225,27 +222,23 @@ function hiddenFilters() {
 navLogin.addEventListener("click", function () {
   sessionStorage.clear();
 });
-//EventListener pour fermer la modale
-// const editionModeLink = document.getElementById("editionMode");
-// editionModeLink.addEventListener("click", function () {
-//   modale[0].style.display = "block";
-// });
-
-// crossCloseModale.addEventListener("click", function () {
-//   modale[0].style.display = "none";
-// });
 
 backgroundModale.addEventListener("click", function (event) {
   if (event.target.id === "modale1" || event.target.id === "closeModale") {
-    modale[0].style.display = "none";
-    console.log("test");
+    backgroundModale.style.display = "none";
   } else if (event.target.className.includes("fa-trash-can")) {
     deleteModaleProject(event.target);
+  } else if (event.target.id === "buttonModale1") {
+    modaleNumberOne.style.display = "none";
+    modaleNumberTwo.style.display = "flex";
+  } else if (event.target.id === "arrowBackModale") {
+    modaleNumberOne.style.display = "flex";
+    modaleNumberTwo.style.display = "none";
   }
 });
 
 async function deleteModaleProject(trashIcon) {
-  console.log("click sur la croiiiiiix");
+  console.log("click sur la croix");
   const parentTrash = trashIcon.parentElement;
   console.log("parenttrash", parentTrash.getAttribute("data-workId"));
   const galleryTrash = [...document.querySelector(".gallery").children];
@@ -287,3 +280,61 @@ async function deleteModaleProject(trashIcon) {
       console.error(error);
     });
 }
+
+const fileInput = document.querySelector("#file-input");
+fileInput.addEventListener("change", function () {
+  const selectedFileInput = fileInput.files[0];
+  const imgInputElement = document.createElement("img");
+  imgInputElement.src = URL.createObjectURL(selectedFileInput);
+  imgInputElement.alt = selectedFileInput.name;
+  divImageModale2.appendChild(imgInputElement);
+  imgInputElement.style.position = "absolute";
+});
+
+async function addNewProject() {
+  const formData = new FormData();
+  // Ajout du fichier a l'objet FormData
+  formData.append("image", fileInput.files[0]);
+  formData.append("title", titleInputModale2.value);
+  formData.append("category", categoryInput.value);
+  console.log("yo c'est le fileInput (l'image)", fileInput[0]);
+  console.log("le formdata", formData);
+
+  await fetch(`http://localhost:5678/api/works`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${sessionStorage["adminToken"]}`,
+    },
+    body: formData,
+  }).then(async (response) => {
+    if (response.ok) {
+      divImageModale2.querySelector("img").remove();
+      hiddenInputModale2.value = "";
+      titleInputModale2.value = "";
+    } else {
+      console.log("error");
+      alert(
+        "Veuillez verifier que vous avez bien ajouté un Titre et une image au bon format"
+      );
+    }
+  });
+}
+
+validerModale2.addEventListener("click", () => {
+  addNewProject()
+    .then(() => {
+      allProjects.forEach((projet) => {
+        allProjects.delete(projet);
+      });
+      clearAll();
+    })
+    .then(() => {
+      initAllSetsOfData().then(() => {
+        loadDataSet(allProjects);
+        initAdminElements();
+        console.log("2emelog", allProjects);
+        modaleNumberOne.style.display = "flex";
+        modaleNumberTwo.style.display = "none";
+      });
+    });
+});

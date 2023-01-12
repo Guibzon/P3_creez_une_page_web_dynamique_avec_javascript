@@ -37,19 +37,22 @@
 	</section>
 		<!-- Début de la modale -->
 	<aside id="modale1" class="modale" aria-hidden="true" role="dialog" aria-labelledby="titlemodale">
-		<div class="modale-wrapper" id="modaleNumberOne">
+		<div class="modale-wrapper">
+			<!-- <i class="fa-solid fa-arrow-left modale2" id="arrowBackModale"></i> -->
 			<i class="fa-solid fa-xmark" id="closeModale"></i>
-			<h1 id="titlemodale" class="modale1">Galerie Photo</h1>
-			<div class="inside-modale modale1" id="galleryModale"></div>
-			<button class="modale1" id="buttonModale1">Ajouter une photo</button>
-			<a href="#" class="modale1">Supprimer la galerie</a>
+			<h1 id="titlemodale" class="modale1">Galerie Photo</h1> <!--display:none CSS 375/380-->
+			<div class="inside-modale modale1"></div> <!--display:none CSS 375/380-->
+			<button class="modale1" id="buttonModale1">Ajouter une photo</button> <!--display:none CSS 375/380-->
+			<a href="#" class="modale1">Supprimer la galerie</a> <!--display:none CSS 375/380-->
 		</div>
-		<!-- Fin de la modale 1 / Début de la modale 2 -->
-		<div class="modale-wrapper" id="modaleNumberTwo">
-			<i class="fa-solid fa-arrow-left modale2" id="arrowBackModale"></i>
+	</aside>
+    <!-- Fin de la modale 1 / Début de la modale 2 -->
+    <aside id="modale2" class="modale" aria-hidden="true" role="dialog" aria-labelledby="titlemodale">
+        <div class="modale-wrapper">
+            <i class="fa-solid fa-arrow-left modale2" id="arrowBackModale"></i>
 			<i class="fa-solid fa-xmark" id="closeModale"></i>
-			<h1 id="titlemodale2" class="modale2">Ajout Photo</h1>
-			<form action="" method="post" id="" class="modale2">
+            <h1 id="titlemodale2" class="modale2">Ajout Photo</h1>
+            <form action="" method="post" id="" class="modale2">
 				<div id="divImageModale2" class="modale2">
 					<label for="file-input"><i class="fa-regular fa-image modale2"></i></label>
 						<label for="file-input" id="addPhoto" class="modale2">
@@ -65,12 +68,12 @@
 				  <option value="1">Objets</option>
 				  <option value="2">Appartements</option>
 				  <option value="3">Hôtels & restaurants</option>
+                  <input type="submit" value="Valider" id="validerModale2" class="modale2">
 				</select>
 			</form>
-			<div id="traitSeparationModale2" class="modale2"></div>
-			<input type="submit" value="Valider" id="validerModale2" class="modale2">
-		</div>
-	</aside>
+            <div id="traitSeparationModale2" class="modale2"></div>
+        </div>
+    </aside>
 		<!-- Fin de la modale -->
 	<section id="portfolio">
 		<h2 id="projectTitle">Mes Projets</h2>
@@ -85,7 +88,7 @@
 		<div class="gallery">
 		</div>
 	</section>
-	<section id="contact">
+	<!-- <section id="contact">
 		<h2>Contact</h2>
 		<p>Vous avez un projet ? Discutons-en !</p>
 		<form action="#" method="post">
@@ -97,7 +100,7 @@
 			<textarea name="message" id="message" cols="30" rows="10"></textarea>
 			<input type="submit" value="Envoyer">
 		</form>
-	</section>
+	</section> -->
 </main>
 
 <footer>
