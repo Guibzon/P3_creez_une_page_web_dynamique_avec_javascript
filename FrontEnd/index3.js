@@ -29,15 +29,19 @@ initAllSetsOfData().then(() => {
 });
 
 async function fetchAllWorks() {
-  const worksRow = await fetch("http://localhost:5678/api/works", {
-    headers: {
-      "Cross-Origin-Ressource-Policy": "cross-origin",
-    },
-  });
-  if (worksRow.ok) {
-    return worksRow.json();
-  } else {
-    console.error(works.error);
+  try {
+    const worksRow = await fetch("http://localhost:5678/api/works", {
+      headers: {
+        "Cross-Origin-Ressource-Policy": "cross-origin",
+      },
+    });
+    if (worksRow.ok) {
+      return worksRow.json();
+    } else {
+      console.error(works.error);
+    }
+  } catch (error) {
+    alert("Error, can't load projects");
   }
 }
 
@@ -345,7 +349,7 @@ validerModale2.addEventListener("click", () => {
     .then(() => {
       initAllSetsOfData().then(() => {
         loadDataSet(allProjects);
-        initAdminElements();
+        // initAdminElements();
         console.log("2emelog", allProjects);
         backgroundModale.style.display = "none";
         // modaleNumberOne.style.display = "flex";
