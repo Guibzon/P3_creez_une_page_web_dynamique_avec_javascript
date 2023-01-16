@@ -1,5 +1,5 @@
 // ------------------ Objet Set ------------------
-const categories = new Set();
+// const categories = new Set();
 const allProjects = new Set();
 const objectsProjects = new Set();
 const apartmentProjects = new Set();
@@ -61,7 +61,7 @@ async function initAllSetsOfData() {
 
 function loadDataSet(works) {
   works.forEach((work) => {
-    categories.add(work.categoryId);
+    // categories.add(work.categoryId);
 
     const dom_figure = document.createElement("figure");
     dom_figure.id = "galleryFigure";
@@ -315,8 +315,6 @@ async function addNewProject() {
   formData.append("image", fileInput.files[0]);
   formData.append("title", titleInputModale2.value);
   formData.append("category", categoryInput.value);
-  console.log("yo c'est le fileInput (l'image)", fileInput[0]);
-  console.log("le formdata", formData);
 
   await fetch(`http://localhost:5678/api/works`, {
     method: "POST",
@@ -349,7 +347,6 @@ validerModale2.addEventListener("click", () => {
     .then(() => {
       initAllSetsOfData().then(() => {
         loadDataSet(allProjects);
-        // initAdminElements();
         console.log("2emelog", allProjects);
         backgroundModale.style.display = "none";
         // modaleNumberOne.style.display = "flex";
