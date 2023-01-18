@@ -379,6 +379,7 @@ footer nav ul {
 .modale-wrapper .fa-arrow-left {
 	transform: scale(2);
 	position: absolute;
+	cursor: pointer;
 	top: 30px;
 	left: 30px;
 }
