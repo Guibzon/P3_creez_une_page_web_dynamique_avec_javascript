@@ -1,5 +1,4 @@
 // ------------------ Objet Set ------------------
-// const categories = new Set();
 const allProjects = new Set();
 const objectsProjects = new Set();
 const apartmentProjects = new Set();
@@ -105,7 +104,6 @@ function loadDataSet(works) {
 }
 
 function clearAll() {
-  console.log("clearAll actif");
   gallery.innerHTML = "";
   modalInside.innerHTML = "";
 }
@@ -117,7 +115,7 @@ const filterHotelAndRestaurant = document.getElementById(
   "filterHotelAndRestaurant"
 );
 
-// Click Events
+// Click Events filtres
 filterAll.addEventListener("click", function () {
   clearAll();
   loadDataSet(allProjects);
